@@ -1,0 +1,573 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {
+    "collapsed": true
+   },
+   "outputs": [],
+   "source": [
+    "import pandas as pd"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 66,
+   "metadata": {
+    "collapsed": false
+   },
+   "outputs": [],
+   "source": [
+    "data = pd.read_csv(\"sportsDataset.csv\", header=0, quoting=0, delimiter=\",\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 67,
+   "metadata": {
+    "collapsed": false
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "(130982, 5)"
+      ]
+     },
+     "execution_count": 67,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "data.shape"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 68,
+   "metadata": {
+    "collapsed": false
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div style=\"max-height:1000px;max-width:1500px;overflow:auto;\">\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>Date_time</th>\n",
+       "      <th>Indegree</th>\n",
+       "      <th>Message</th>\n",
+       "      <th>Outdegree</th>\n",
+       "      <th>Sentiment</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>130977</th>\n",
+       "      <td>209-12-31</td>\n",
+       "      <td>deseanjackson10</td>\n",
+       "      <td>#FT09 I'm so blesed 2 be meh real talk. no hum...</td>\n",
+       "      <td>mon321</td>\n",
+       "      <td>4</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>130978</th>\n",
+       "      <td>209-12-31</td>\n",
+       "      <td>ArwenAnaNg</td>\n",
+       "      <td>Ok, I wil let u get on w your Dr Katz, but fi...</td>\n",
+       "      <td>slothandgluton</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>130979</th>\n",
+       "      <td>209-12-31</td>\n",
+       "      <td>olbalcoach</td>\n",
+       "      <td>The NFL rarely adapts to anything lol. I thin...</td>\n",
+       "      <td>dapa191</td>\n",
+       "      <td>4</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>130980</th>\n",
+       "      <td>209-12-31</td>\n",
+       "      <td>Str8tarow</td>\n",
+       "      <td>oh yea did you hear the NFL might not have a ...</td>\n",
+       "      <td>okc_casey</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>130981</th>\n",
+       "      <td>209-12-31</td>\n",
+       "      <td>youngtahoe</td>\n",
+       "      <td>Nah. Ya Starving. But We Done With This 4 The...</td>\n",
+       "      <td>high3rstatus</td>\n",
+       "      <td>4</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "        Date_time         Indegree  \\\n",
+       "130977  209-12-31  deseanjackson10   \n",
+       "130978  209-12-31       ArwenAnaNg   \n",
+       "130979  209-12-31       olbalcoach   \n",
+       "130980  209-12-31        Str8tarow   \n",
+       "130981  209-12-31       youngtahoe   \n",
+       "\n",
+       "                                                  Message       Outdegree  \\\n",
+       "130977  #FT09 I'm so blesed 2 be meh real talk. no hum...          mon321   \n",
+       "130978   Ok, I wil let u get on w your Dr Katz, but fi...  slothandgluton   \n",
+       "130979   The NFL rarely adapts to anything lol. I thin...         dapa191   \n",
+       "130980   oh yea did you hear the NFL might not have a ...       okc_casey   \n",
+       "130981   Nah. Ya Starving. But We Done With This 4 The...    high3rstatus   \n",
+       "\n",
+       "        Sentiment  \n",
+       "130977          4  \n",
+       "130978          0  \n",
+       "130979          4  \n",
+       "130980          0  \n",
+       "130981          4  "
+      ]
+     },
+     "execution_count": 68,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "data.tail()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 69,
+   "metadata": {
+    "collapsed": false
+   },
+   "outputs": [],
+   "source": [
+    "data = csv.loc[csv['Date_time'].str.contains(\"209-12-\")]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 70,
+   "metadata": {
+    "collapsed": false
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div style=\"max-height:1000px;max-width:1500px;overflow:auto;\">\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>Date_time</th>\n",
+       "      <th>Indegree</th>\n",
+       "      <th>Message</th>\n",
+       "      <th>Outdegree</th>\n",
+       "      <th>Sentiment</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>119960</th>\n",
+       "      <td>209-12-01</td>\n",
+       "      <td>StacyKeibler</td>\n",
+       "      <td>Being an obvious Ravens &amp; NFL fan, I was wond...</td>\n",
+       "      <td>quasardj</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>119961</th>\n",
+       "      <td>209-12-01</td>\n",
+       "      <td>KAcom</td>\n",
+       "      <td>I'm going with the #Saints tonight over #Patr...</td>\n",
+       "      <td>izyjsmom</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>119962</th>\n",
+       "      <td>209-12-01</td>\n",
+       "      <td>SI_JimTroter</td>\n",
+       "      <td>I know with the NFL you're not suposed to thi...</td>\n",
+       "      <td>bojackruso</td>\n",
+       "      <td>4</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>119963</th>\n",
+       "      <td>209-12-01</td>\n",
+       "      <td>jilgundy</td>\n",
+       "      <td>FYI: I became a Saints fan thre years ago. I ...</td>\n",
+       "      <td>stephnmcdonald</td>\n",
+       "      <td>4</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>119964</th>\n",
+       "      <td>209-12-01</td>\n",
+       "      <td>twersky</td>\n",
+       "      <td>I'd rather se charlie ward batle jarmarcus ru...</td>\n",
+       "      <td>smileyoufckers</td>\n",
+       "      <td>4</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "        Date_time      Indegree  \\\n",
+       "119960  209-12-01  StacyKeibler   \n",
+       "119961  209-12-01         KAcom   \n",
+       "119962  209-12-01  SI_JimTroter   \n",
+       "119963  209-12-01      jilgundy   \n",
+       "119964  209-12-01       twersky   \n",
+       "\n",
+       "                                                  Message       Outdegree  \\\n",
+       "119960   Being an obvious Ravens & NFL fan, I was wond...        quasardj   \n",
+       "119961   I'm going with the #Saints tonight over #Patr...        izyjsmom   \n",
+       "119962   I know with the NFL you're not suposed to thi...      bojackruso   \n",
+       "119963   FYI: I became a Saints fan thre years ago. I ...  stephnmcdonald   \n",
+       "119964   I'd rather se charlie ward batle jarmarcus ru...  smileyoufckers   \n",
+       "\n",
+       "        Sentiment  \n",
+       "119960          0  \n",
+       "119961          0  \n",
+       "119962          4  \n",
+       "119963          4  \n",
+       "119964          4  "
+      ]
+     },
+     "execution_count": 70,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "data.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 71,
+   "metadata": {
+    "collapsed": false
+   },
+   "outputs": [],
+   "source": [
+    "outdegreeN = data.groupby(\"Outdegree\").size()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 72,
+   "metadata": {
+    "collapsed": false
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "Outdegree\n",
+       "305saintsgirl      13\n",
+       "alexrandles1       10\n",
+       "arunraven           6\n",
+       "atlantaj            6\n",
+       "bebzy              10\n",
+       "beritaindonesia    13\n",
+       "bigred12            7\n",
+       "bonkerbids         31\n",
+       "brchelseastaub      6\n",
+       "cfc8scot           17\n",
+       "christinamcflyx     6\n",
+       "devidrareg         16\n",
+       "djrmc24             6\n",
+       "hanahparle          8\n",
+       "holywodtino         8\n",
+       "jane_of_volturi     7\n",
+       "jbeliebers          7\n",
+       "jefhaseley         34\n",
+       "jeniswan           15\n",
+       "johal20             7\n",
+       "justinhoties        7\n",
+       "kenpot             20\n",
+       "kirsty09x           6\n",
+       "lashish             9\n",
+       "latehits           19\n",
+       "leahoneil           7\n",
+       "loinazcastro        7\n",
+       "ltdemo              8\n",
+       "luckystreaklive    11\n",
+       "market1plus        17\n",
+       "market812plus      12\n",
+       "misydanz            6\n",
+       "mizthicknes25      21\n",
+       "momzo17             6\n",
+       "monsterdof          9\n",
+       "mrsgernando_x      12\n",
+       "natalie_think       6\n",
+       "nelyviolet          8\n",
+       "nfl_fan10          50\n",
+       "nkotbgal21          9\n",
+       "nweiser09          16\n",
+       "playerpres          6\n",
+       "rotosleperz        10\n",
+       "samantha_may       12\n",
+       "shanefwray_ca       6\n",
+       "shazilzarok         6\n",
+       "shyneiv            13\n",
+       "spedyian            9\n",
+       "stefmara            6\n",
+       "stephenhack1989     7\n",
+       "stratcons          15\n",
+       "ticketz            14\n",
+       "ticketz_to_go      19\n",
+       "tm_nfl              7\n",
+       "yanke32879          8\n",
+       "yeazo               6\n",
+       "dtype: int64"
+      ]
+     },
+     "execution_count": 72,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "#tweets greater than\n",
+    "outdegreeN[outdegreeN >=6]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 73,
+   "metadata": {
+    "collapsed": true
+   },
+   "outputs": [],
+   "source": [
+    "interationT = outdegreeN[outdegreeN >=6]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 74,
+   "metadata": {
+    "collapsed": false
+   },
+   "outputs": [],
+   "source": [
+    "interationT.to_csv(\"sportoutdegreegreaterthan6.csv\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 60,
+   "metadata": {
+    "collapsed": false
+   },
+   "outputs": [],
+   "source": [
+    "t = pd.read_csv(\"sportoutdegreegreaterthan6.csv\", header=0, quoting=0, delimiter=\",\", error_bad_lines=False)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 61,
+   "metadata": {
+    "collapsed": false
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div style=\"max-height:1000px;max-width:1500px;overflow:auto;\">\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>Outdegree</th>\n",
+       "      <th>Frequency</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>305saintsgirl</td>\n",
+       "      <td>13</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>alexrandles1</td>\n",
+       "      <td>10</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>arunraven</td>\n",
+       "      <td>6</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>atlantaj</td>\n",
+       "      <td>6</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>bebzy</td>\n",
+       "      <td>10</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "       Outdegree  Frequency\n",
+       "0  305saintsgirl         13\n",
+       "1   alexrandles1         10\n",
+       "2      arunraven          6\n",
+       "3       atlantaj          6\n",
+       "4          bebzy         10"
+      ]
+     },
+     "execution_count": 61,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "t.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 62,
+   "metadata": {
+    "collapsed": false
+   },
+   "outputs": [],
+   "source": [
+    "#outdegree to series\n",
+    "j =t.Outdegree"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 63,
+   "metadata": {
+    "collapsed": false
+   },
+   "outputs": [],
+   "source": [
+    "#outdegree series to list\n",
+    "k= j.tolist()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 64,
+   "metadata": {
+    "collapsed": true
+   },
+   "outputs": [],
+   "source": [
+    "#look up values that list in column Indegree\n",
+    "re = csv.loc[csv['Indegree'].isin(k)]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 65,
+   "metadata": {
+    "collapsed": false
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "(327, 5)"
+      ]
+     },
+     "execution_count": 65,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "#dimension of the new data\n",
+    "re.shape"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "collapsed": true
+   },
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "collapsed": true
+   },
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "collapsed": true
+   },
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "collapsed": true
+   },
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "collapsed": true
+   },
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 2",
+   "language": "python",
+   "name": "python2"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 2
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython2",
+   "version": "2.7.10"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 0
+}
